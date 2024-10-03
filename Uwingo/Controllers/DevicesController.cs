@@ -33,7 +33,7 @@ namespace Uwingo.Controllers
             }
 
         }
-        [HttpGet("{id}")]
+        [HttpGet("getby-device/{id}")]
         public async Task<DevicesDTO> GetByIdDevice(int id)
         {
             try
@@ -50,7 +50,7 @@ namespace Uwingo.Controllers
         }
         [HttpPut("update-device")]
         public IActionResult UpdateDevice(DevicesDTO devicesDTO)
-        {
+        { 
             try
             {
                 _serviceManager.devicesService.UpdateDevices(devicesDTO);

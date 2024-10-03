@@ -32,6 +32,20 @@ namespace Uwingo.Controllers
             }
 
         }
+        [HttpGet("get-activedevice")]
+        public async Task<IActionResult> GetActiveDevice()
+        {
+            try
+            {
+                var dto = await _serviceManager.deviceVehiclesService.GetActiveDevice();
+                return Ok(dto);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.ToString());
+                return BadRequest();
+            }
+        }
         [HttpGet("{id}")]
         public async Task<IActionResult> GetByIdDeviceVehicle(int id)
         {

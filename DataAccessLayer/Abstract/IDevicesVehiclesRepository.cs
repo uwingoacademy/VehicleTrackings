@@ -10,5 +10,6 @@ namespace DataAccessLayer.Abstract
     public interface IDevicesVehiclesRepository :IGenericRepostory<DeviceVehicles>
     {
         IQueryable<DeviceVehicles> GetDeviceVehicles(int id, bool trackchanges);
+        IQueryable<DeviceVehicles> GetActiveDevice(bool trackchanges);
     }
 }

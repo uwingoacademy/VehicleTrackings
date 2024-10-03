@@ -13,6 +13,7 @@ namespace DataAccessLayer.Contract
         private readonly DataContext _context;
         public DeviceVehiclesRepository(DataContext context) : base(context) => _context = context;
         public IQueryable<DeviceVehicles> GetDeviceVehicles(int id, bool trackchanges) => GenericReadExpression(x => x.ConnectionId == id, trackchanges);
+        public IQueryable<DeviceVehicles> GetActiveDevice(bool trackchanges) => GenericReadExpression(x => x.RemoveDate == null, trackchanges);
 
     }
 }

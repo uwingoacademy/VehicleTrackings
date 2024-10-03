@@ -33,7 +33,7 @@ namespace Uwingo.Controllers
             }
 
         }
-        [HttpGet("{id}")]
+        [HttpGet("getby-vehicle/{id}")]
         public IActionResult GetByIdVehicle(int id)
         {
             try

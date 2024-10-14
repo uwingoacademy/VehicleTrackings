@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DataAccessLayer.Migrations
 {
     /// <inheritdoc />
-    public partial class first : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -136,7 +136,8 @@ namespace DataAccessLayer.Migrations
                     VIN = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FirstKilometer = table.Column<int>(type: "int", nullable: false),
                     Plate = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IsThereDriver = table.Column<bool>(type: "bit", nullable: false)
+                    IsThereDriver = table.Column<bool>(type: "bit", nullable: false),
+                    IsItForRent = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -312,16 +313,16 @@ namespace DataAccessLayer.Migrations
                     DeviceId = table.Column<int>(type: "int", nullable: false),
                     VehicleId = table.Column<int>(type: "int", nullable: false),
                     InstallDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    RemoveDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    RemoveDate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_DeviceVehicles", x => x.ConnectionId);
                     table.ForeignKey(
-                        name: "FK_DeviceVehicles_Drivers_DeviceId",
+                        name: "FK_DeviceVehicles_Devices_DeviceId",
                         column: x => x.DeviceId,
-                        principalTable: "Drivers",
-                        principalColumn: "DriverId",
+                        principalTable: "Devices",
+                        principalColumn: "DeviceId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_DeviceVehicles_Vehicles_VehicleId",
@@ -340,7 +341,7 @@ namespace DataAccessLayer.Migrations
                     DriversId = table.Column<int>(type: "int", nullable: false),
                     VehicleId = table.Column<int>(type: "int", nullable: false),
                     IdentificationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TerminationDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    TerminationDate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -353,6 +354,27 @@ namespace DataAccessLayer.Migrations
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_DriverVehicles_Vehicles_VehicleId",
+                        column: x => x.VehicleId,
+                        principalTable: "Vehicles",
+                        principalColumn: "VehicleId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PeriodicMaintenances",
+                columns: table => new
+                {
+                    PeriodicMaintenanceId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    VehicleId = table.Column<int>(type: "int", nullable: false),
+                    Period = table.Column<int>(type: "int", nullable: false),
+                    LastMaintenanceDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PeriodicMaintenances", x => x.PeriodicMaintenanceId);
+                    table.ForeignKey(
+                        name: "FK_PeriodicMaintenances_Vehicles_VehicleId",
                         column: x => x.VehicleId,
                         principalTable: "Vehicles",
                         principalColumn: "VehicleId",
@@ -424,6 +446,11 @@ namespace DataAccessLayer.Migrations
                 column: "PacketId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_PeriodicMaintenances_VehicleId",
+                table: "PeriodicMaintenances",
+                column: "VehicleId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_TrackingDataForACCs_DeviceId",
                 table: "TrackingDataForACCs",
                 column: "DeviceId");
@@ -457,6 +484,9 @@ namespace DataAccessLayer.Migrations
                 name: "PacketContents");
 
             migrationBuilder.DropTable(
+                name: "PeriodicMaintenances");
+
+            migrationBuilder.DropTable(
                 name: "TrackingDataForACCs");
 
             migrationBuilder.DropTable(
@@ -472,10 +502,10 @@ namespace DataAccessLayer.Migrations
                 name: "Drivers");
 
             migrationBuilder.DropTable(
-                name: "Vehicles");
+                name: "Packets");
 
             migrationBuilder.DropTable(
-                name: "Packets");
+                name: "Vehicles");
 
             migrationBuilder.DropTable(
                 name: "Devices");

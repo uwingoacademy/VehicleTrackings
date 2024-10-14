@@ -44,16 +44,16 @@ namespace ServicesLayer.Contract
             var dto = _mapper.Map<DeviceVehiclesDTO>(device);
             return dto;
         }
-        public async Task<List<DeviceVehiclesDTO>> GetActiveDevice() {
+        public async Task<IQueryable<object>> GetActiveDevice() {
             try {
-             
-               var activeDevice =  _repository.DevicesVehiclesRepository.GetActiveDevice(false).ToList();
-               var dto = _mapper.Map<List<DeviceVehiclesDTO>>(activeDevice);
-               return dto;
+              var deviceVehicles =  _repository.DevicesVehiclesRepository.GetDevicesWithVehicles().ToList();
+              //var activeDevice =  _repository.DevicesVehiclesRepository.GetActiveDevice(false).ToList();
+              // var dto = _mapper.Map<List<DeviceVehiclesDTO>>(activeDevice);
+               return (IQueryable<object>)deviceVehicles.AsQueryable();
 
             } catch (Exception ex){
                 _logger.LogError(ex.ToString());
-                return new List<DeviceVehiclesDTO>();
+                return Enumerable.Empty<object>().AsQueryable();
             }
         
         }

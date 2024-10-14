@@ -187,9 +187,6 @@ namespace DataAccessLayer.Migrations
                     b.Property<DateTime>("LastMaintenanceDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("NextMaintenanceDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<int>("Period")
                         .HasColumnType("int");
 

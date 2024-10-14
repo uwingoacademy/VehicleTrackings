@@ -14,5 +14,6 @@ namespace DataAccessLayer.Abstract
         void GenericDelete(T entity);
         IQueryable<T> GenericReadExpression(Expression<Func<T, bool>> expression, bool trackChanges);
         void GenericUpdate(T entity);
+        Task<int> GetCountAsync();
     }
 }

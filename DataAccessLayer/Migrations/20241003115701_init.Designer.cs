@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240830104830_first")]
-    partial class first
+    [Migration("20241003115701_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,7 +39,7 @@ namespace DataAccessLayer.Migrations
                     b.Property<DateTime>("InstallDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("RemoveDate")
+                    b.Property<DateTime?>("RemoveDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("VehicleId")
@@ -96,7 +96,7 @@ namespace DataAccessLayer.Migrations
                     b.Property<DateTime>("IdentificationDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("TerminationDate")
+                    b.Property<DateTime?>("TerminationDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("VehicleId")
@@ -177,6 +177,30 @@ namespace DataAccessLayer.Migrations
                     b.HasKey("PacketId");
 
                     b.ToTable("Packets");
+                });
+
+            modelBuilder.Entity("EntitiesLayer.Contract.PeriodicMaintenance", b =>
+                {
+                    b.Property<int>("PeriodicMaintenanceId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PeriodicMaintenanceId"));
+
+                    b.Property<DateTime>("LastMaintenanceDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Period")
+                        .HasColumnType("int");
+
+                    b.Property<int>("VehicleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("PeriodicMaintenanceId");
+
+                    b.HasIndex("VehicleId");
+
+                    b.ToTable("PeriodicMaintenances");
                 });
 
             modelBuilder.Entity("EntitiesLayer.Contract.TrackingDataForACC", b =>
@@ -324,6 +348,9 @@ namespace DataAccessLayer.Migrations
 
                     b.Property<int>("FirstKilometer")
                         .HasColumnType("int");
+
+                    b.Property<bool?>("IsItForRent")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("IsThereDriver")
                         .HasColumnType("bit");
@@ -552,7 +579,7 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("EntitiesLayer.Contract.DeviceVehicles", b =>
                 {
-                    b.HasOne("EntitiesLayer.Contract.Drivers", "Drivers")
+                    b.HasOne("EntitiesLayer.Contract.Devices", "Devices")
                         .WithMany()
                         .HasForeignKey("DeviceId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -564,7 +591,7 @@ namespace DataAccessLayer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Drivers");
+                    b.Navigation("Devices");
 
                     b.Navigation("Vehicles");
                 });
@@ -597,6 +624,17 @@ namespace DataAccessLayer.Migrations
                         .IsRequired();
 
                     b.Navigation("Packets");
+                });
+
+            modelBuilder.Entity("EntitiesLayer.Contract.PeriodicMaintenance", b =>
+                {
+                    b.HasOne("EntitiesLayer.Contract.Vehicles", "Vehicles")
+                        .WithMany()
+                        .HasForeignKey("VehicleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Vehicles");
                 });
 
             modelBuilder.Entity("EntitiesLayer.Contract.TrackingDataForACC", b =>

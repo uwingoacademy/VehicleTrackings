@@ -14,6 +14,7 @@ namespace ServicesLayer.Abstract
         Task<DeviceVehiclesDTO> CreateDeviceVehicles(DeviceVehiclesDTO deviceVehicles);
         void UpdateDeviceVehicles(DeviceVehiclesDTO deviceVehicles);
         void DeleteDeviceVehicles(int id);
-        Task<List<DeviceVehiclesDTO>> GetActiveDevice();
+        Task<IQueryable<object>> GetActiveDevice();
+ 
     }
 }

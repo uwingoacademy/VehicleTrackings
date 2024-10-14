@@ -14,7 +14,6 @@ namespace DataAccessLayer.Contract
     {
         protected readonly DataContext _context;
         public GenericRepository(DataContext context) => _context = context;
-       
             public async Task GenericCreate(T entity) => await _context.Set<T>().AddAsync(entity);
 
             public void GenericDelete(T entity) => _context.Set<T>().Remove(entity);
@@ -24,6 +23,7 @@ namespace DataAccessLayer.Contract
            !trackChanges ? _context.Set<T>().Where(expression).AsNoTracking()
                 : _context.Set<T>().Where(expression);
             public void GenericUpdate(T entity) => _context.Set<T>().Update(entity);
-        
+        public async Task<int> GetCountAsync() => await _context.Set<T>().CountAsync();
+
     }
 }

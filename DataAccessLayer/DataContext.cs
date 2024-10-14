@@ -18,16 +18,16 @@ namespace DataAccessLayer
 
         }
 
-        DbSet<Devices> Devices { get; set; }
-        DbSet<DeviceVehicles> DeviceVehicles { get; set; }
-        DbSet<Drivers> Drivers { get; set; }
-        DbSet<DriverVehicle> DriverVehicles { get; set; }
-        DbSet<Packets> Packets { get; set; }
-        DbSet<PacketContent> PacketContents { get; set; }
-        DbSet<TrackingDataForSTD> TrackingDataForSTDs { get; set; }
-        DbSet<TrackingDataForACC> TrackingDataForACCs { get; set; }
-        DbSet<Vehicles> Vehicles { get; set; }
-        DbSet<PeriodicMaintenance> PeriodicMaintenances { get; set; }
+        public DbSet<Devices> Devices { get; set; }
+        public DbSet<DeviceVehicles> DeviceVehicles { get; set; }
+        public DbSet<Drivers> Drivers { get; set; }
+        public DbSet<DriverVehicle> DriverVehicles { get; set; }
+        public DbSet<Packets> Packets { get; set; }
+        public DbSet<PacketContent> PacketContents { get; set; }
+        public DbSet<TrackingDataForSTD> TrackingDataForSTDs { get; set; }
+        public DbSet<TrackingDataForACC> TrackingDataForACCs { get; set; }
+        public DbSet<Vehicles> Vehicles { get; set; }
+        public DbSet<PeriodicMaintenance> PeriodicMaintenances { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

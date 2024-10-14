@@ -19,5 +19,6 @@ namespace ServicesLayer.ServiceManager
         ITrackingDataForACCService trackingDataForACCService { get; }
         ITrackingDataForSTDService trackingDataForSTDService { get; }
         IVehiclesService vehiclesService { get; }
+        ICoundService coundService { get; }
     }
 }

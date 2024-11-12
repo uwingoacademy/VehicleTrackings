@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using DataAccessLayer.Manager;
+using EntitiesLayer.Contract;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using ServicesLayer.Abstract;
 using ServicesLayer.Contract;
@@ -24,7 +26,8 @@ namespace ServicesLayer.ServiceManager
         private readonly Lazy<ITrackingDataForSTDService> _trackingDataForSTDService;
         private readonly Lazy<IVehiclesService> _vehiclesService;
         private readonly Lazy<ICoundService> _coundService;
-        public ServiceManager(IRepositoryManager repository,IMapper mapper,ILogger<DevicesService> loggerDevices , ILogger<CoundService> loggerCound, ILogger<PeriodicMaintenanceService> loggerPeriodicMaintenance, ILogger<VehiclesService> loggerVehicles, ILogger<TrackingDataForSTDService> loggerTrackingDataForSTD, ILogger<TrackingDataForACCService> loggerTrackingDataForACC, ILogger<DeviceVehiclesService> loggerDeviceVehicles , ILogger<DriversService> loggerDrivers , ILogger<DriverVehicleService> loggerDriverVehicle, ILogger<PacketsService> loggerPackets , ILogger<PacketContentService> loggerPacketContent)
+
+        public ServiceManager(IRepositoryManager repository, IMapper mapper,ILogger<DevicesService> loggerDevices , ILogger<CoundService> loggerCound, ILogger<PeriodicMaintenanceService> loggerPeriodicMaintenance, ILogger<VehiclesService> loggerVehicles, ILogger<TrackingDataForSTDService> loggerTrackingDataForSTD, ILogger<TrackingDataForACCService> loggerTrackingDataForACC, ILogger<DeviceVehiclesService> loggerDeviceVehicles , ILogger<DriversService> loggerDrivers , ILogger<DriverVehicleService> loggerDriverVehicle, ILogger<PacketsService> loggerPackets , ILogger<PacketContentService> loggerPacketContent)
         {
            _devicesService = new Lazy<IDevicesService>(()=> new DevicesService(repository, mapper , loggerDevices));
             _periodicMaintenanceService = new Lazy<IPeriodicMaintenanceService>(() => new PeriodicMaintenanceService(repository, mapper, loggerPeriodicMaintenance));

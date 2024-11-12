@@ -12,6 +12,10 @@ builder.Services.ConfiguerServiceManager();
 builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.ConfigureIdentity();
+builder.Services.ConfigureAuthorizationPolicies();
+
+builder.Services.ConfigureJWT(builder.Configuration);
 //builder.Services.AddSwaggerGen();
 
 var app = builder.Build();

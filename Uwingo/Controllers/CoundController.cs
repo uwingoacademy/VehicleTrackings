@@ -1,4 +1,5 @@
 ﻿using EntitiesLayer.Abstract;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ServicesLayer.ServiceManager;
@@ -17,6 +18,7 @@ namespace Uwingo.Controllers
             _serviceManager = serviceManager;
             _logger = logger;
         }
+        [Authorize(Policy = "GetCount")]
         [HttpGet("get-cound")]
         public async Task<CoundDTO> GetCound() 
         {

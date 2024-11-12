@@ -23,6 +23,8 @@ namespace DataAccessLayer.AutoMapper
             CreateMap<TrackingDataForSTD, TrackingDataForSTDDTO>().ReverseMap();
             CreateMap<Vehicles, VehiclesDTO>().ReverseMap();
             CreateMap<PeriodicMaintenance, PeriodicMaintenanceDTO>().ReverseMap();
+            CreateMap<User, UserDTO>().ReverseMap();
+            CreateMap<UserForRegistrationDTO, User>().ReverseMap();
         }
     }
 }

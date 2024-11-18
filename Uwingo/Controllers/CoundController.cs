@@ -18,7 +18,6 @@ namespace Uwingo.Controllers
             _serviceManager = serviceManager;
             _logger = logger;
         }
-        [Authorize(Policy = "GetCount")]
         [HttpGet("get-cound")]
         public async Task<CoundDTO> GetCound() 
         {

@@ -20,7 +20,7 @@ namespace Uwingo.Controllers
             _logger = logger;
         }
         [HttpPost("login")]
-        public async Task<IActionResult> Authenticate(UserForAuthenticationDTO user)
+        public async Task<IActionResult> Authenticate([FromBody] UserForAuthenticationDTO user)
         {
             if (!await _serviceManager.ValidateUser(user))
                 return Unauthorized();
@@ -37,7 +37,9 @@ namespace Uwingo.Controllers
         [HttpGet("get-cliams")]
         public async Task<IActionResult> GetCliams(string userName)
         {
-            return Ok();
+         var user=  await _serviceManager.GetUserByUserName(userName);
+         var claims=  await  _serviceManager.GetClaimsByUser(user);
+         return Ok(claims);
         }
 
     }

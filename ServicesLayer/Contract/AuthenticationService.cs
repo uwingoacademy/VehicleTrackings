@@ -23,14 +23,16 @@ namespace ServicesLayer.Contract
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
         private readonly UserManager<User> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         private User? _user;
 
-        public AuthenticationService(UserManager<User> userManager, IMapper mapper, IConfiguration configuration)
+        public AuthenticationService(UserManager<User> userManager, IMapper mapper, IConfiguration configuration, RoleManager<IdentityRole> roleManager)
         {
             _mapper = mapper;
             _configuration = configuration;
             _userManager = userManager;
+            _roleManager = roleManager;
 
         }
 
@@ -118,6 +120,60 @@ namespace ServicesLayer.Contract
             }
 
             return claims;
+        }
+
+        public async Task<List<Claim>> GetClaimsByUser(User user)
+        {
+            // Kullanıcıya ait temel claim'leri ekle
+            var claims = new List<Claim>
+    {
+        new Claim(ClaimTypes.Name, user.UserName),
+        new Claim(ClaimTypes.Email, user.Email),
+        new Claim("uid", user.Id)
+    };
+
+            // UwingoUser oluştur
+            var uwingoUser = await _userManager.FindByIdAsync(user.Id);
+            if (uwingoUser is null)
+            {
+                throw new InvalidOperationException("Kullanıcı bulunamadı.");
+            }
+
+            // Rolleri alın
+            var roles = await _userManager.GetRolesAsync(uwingoUser);
+
+            foreach (var role in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+                var usersRole = await _roleManager.FindByNameAsync(role);
+
+                if (usersRole is not null)
+                {
+                    var roleClaims = await GetRoleClaimsAsync(usersRole.Id);
+                    foreach (var roleClaim in roleClaims)
+                    {
+                        claims.Add(new Claim(roleClaim.Type, roleClaim.Value));
+                    }
+                }
+            }
+
+            // Kullanıcıya ait claim'leri alın
+            var userClaims = await _userManager.GetClaimsAsync(uwingoUser);
+
+            foreach (var userClaim in userClaims)
+            {
+                claims.Add(new Claim(userClaim.Type, userClaim.Value));
+            }
+
+            return claims;
+        }
+        public async Task<IEnumerable<Claim>> GetRoleClaimsAsync(string roleId)
+        {
+            // İlk olarak birinci veritabanında rolü kontrol et
+            var role = await _roleManager.FindByIdAsync(roleId);
+
+            // Rol bulunduğunda claim'leri getir
+            return await _roleManager.GetClaimsAsync(role);
         }
 
         private SigningCredentials GetSigninCredentials()

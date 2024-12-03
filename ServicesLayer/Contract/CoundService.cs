@@ -26,7 +26,7 @@ namespace ServicesLayer.Contract
             coundDTO.deviceCound =await _repository.Devices.GetCountAsync();
             coundDTO.paketsCound = await _repository.PacketsRepository.GetCountAsync();
             coundDTO.vehiclesCound = await _repository.VehiclesRepository.GetCountAsync();
-            coundDTO.deviceVehiclesCound = await _repository.DevicesVehiclesRepository.GetCountAsync();
+            coundDTO.deviceVehiclesCound = await _repository.DevicesVehiclesRepository.GetActiveDeviceVehicleCound();
             return coundDTO;
         }
     }

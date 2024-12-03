@@ -12,5 +12,6 @@ namespace DataAccessLayer.Abstract
         IQueryable<DeviceVehicles> GetDeviceVehicles(int id, bool trackchanges);
         IQueryable<DeviceVehicles> GetActiveDevice(bool trackchanges);
         IQueryable<object> GetDevicesWithVehicles();
+        Task<int> GetActiveDeviceVehicleCound();
     }
 }

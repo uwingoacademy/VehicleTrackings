@@ -31,5 +31,10 @@ namespace DataAccessLayer.Contract
                          };
             return result;
         }
+        public async Task<int> GetActiveDeviceVehicleCound()
+        {
+            var result = await _context.DeviceVehicles.CountAsync(dv => dv.RemoveDate == null);
+            return result;
+        }
     }
 }
